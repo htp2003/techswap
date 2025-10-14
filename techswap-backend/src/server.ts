@@ -7,6 +7,7 @@ import { errorHandler } from './middleware/errorHandler';
 
 // Routes
 import authRoutes from './routes/auth.routes';
+import productRoutes from './routes/product.routes';
 
 // Load env vars
 dotenv.config();
@@ -29,6 +30,7 @@ app.use(cors({
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/products', productRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
