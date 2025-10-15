@@ -44,7 +44,7 @@ export default function useRouteElements() {
     const routeElements = useRoutes([
         {
             path: '/',
-            element: <Layout><Home /></Layout>
+            element: <Layout containerless><Home /></Layout>
         },
         {
             path: '/login',

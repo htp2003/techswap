@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "tsc",
+    "build": "rimraf dist && tsc",
     "start": "node dist/server.js",
     "watch": "tsc -w"
   },
@@ -25,7 +25,8 @@
     "@types/socket.io": "^3.0.1",
     "nodemon": "^3.1.10",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "rimraf": "^5.0.0"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",

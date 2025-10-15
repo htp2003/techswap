@@ -4,13 +4,10 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 import {
     ArrowLeft,
-    Package,
     Truck,
     CheckCircle,
     AlertCircle,
-    MapPin,
-    Calendar,
-    DollarSign
+    MapPin
 } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
@@ -355,22 +352,76 @@ export default function OrderDetail() {
                         />
                     )}
                     {/* Chat Section */}
-                    <div className="mt-6 bg-background border rounded-lg p-6">
+                    <div className="mt-6">
+                        {/* Chat Toggle Button */}
                         <button
                             onClick={() => setShowChat(!showChat)}
-                            className="flex items-center gap-2 text-xl font-semibold mb-4 hover:text-primary transition-colors"
+                            className={`w-full group relative overflow-hidden rounded-xl border-2 transition-all duration-300 ${showChat
+                                ? 'border-blue-500 bg-gradient-to-r from-blue-50 to-purple-50 shadow-lg shadow-blue-200/50'
+                                : 'border-gray-200 bg-white hover:border-blue-300 hover:shadow-md hover:scale-[1.02]'
+                                }`}
                         >
-                            <MessageCircle className="w-5 h-5" />
-                            <span>Chat with {isBuyer ? 'Seller' : 'Buyer'}</span>
+                            {/* Animated gradient background on hover */}
+                            <div className={`absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${showChat ? 'opacity-100' : ''}`} />
+
+                            <div className="relative p-4 sm:p-5 flex items-center gap-4">
+                                {/* Icon with animation */}
+                                <div className={`flex-shrink-0 relative ${showChat ? 'animate-pulse' : ''}`}>
+                                    <div className="absolute inset-0 bg-blue-400 blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-300" />
+                                    <div className={`relative h-12 w-12 rounded-full flex items-center justify-center transition-all duration-300 ${showChat
+                                        ? 'bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg'
+                                        : 'bg-gradient-to-br from-blue-400 to-purple-500 group-hover:scale-110 group-hover:shadow-lg'
+                                        }`}>
+                                        <MessageCircle className={`w-6 h-6 text-white transition-transform duration-300 ${showChat ? 'scale-110' : 'group-hover:scale-110'}`} />
+                                    </div>
+                                </div>
+
+                                {/* Text Content */}
+                                <div className="flex-1 text-left">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <h3 className={`font-bold text-lg transition-colors duration-300 ${showChat ? 'text-blue-600' : 'text-gray-800 group-hover:text-blue-600'
+                                            }`}>
+                                            Chat with {isBuyer ? 'Seller' : 'Buyer'}
+                                        </h3>
+                                        {/* New badge */}
+                                        <span className="px-2 py-0.5 text-xs font-semibold bg-gradient-to-r from-green-400 to-green-500 text-white rounded-full animate-pulse">
+                                            Live
+                                        </span>
+                                    </div>
+                                    <p className="text-sm text-gray-600 group-hover:text-gray-700">
+                                        {showChat
+                                            ? 'Chat is open - Send a message below'
+                                            : `Ask questions about the order or discuss shipping details`
+                                        }
+                                    </p>
+                                </div>
+
+                                {/* Arrow indicator */}
+                                <div className={`flex-shrink-0 transition-transform duration-300 ${showChat ? 'rotate-180' : ''}`}>
+                                    <svg className="w-6 h-6 text-gray-400 group-hover:text-blue-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </div>
+                            </div>
+
+                            {/* Bottom accent line */}
+                            <div className={`h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 transition-all duration-300 ${showChat ? 'opacity-100' : 'opacity-0 group-hover:opacity-50'
+                                }`} />
                         </button>
 
-                        {showChat && seller && buyer && (
-                            <ChatBox
-                                orderId={order._id}
-                                otherUserId={isBuyer ? (seller as any)._id : (buyer as any)._id}
-                                otherUserName={isBuyer ? seller.name : buyer.name}
-                            />
-                        )}
+                        {/* Chat Box - Smooth expand animation */}
+                        <div className={`overflow-hidden transition-all duration-500 ease-in-out ${showChat ? 'max-h-[600px] opacity-100 mt-4' : 'max-h-0 opacity-0'
+                            }`}>
+                            {showChat && seller && buyer && (
+                                <div className="bg-white border-2 border-blue-100 rounded-xl shadow-lg overflow-hidden">
+                                    <ChatBox
+                                        orderId={order._id}
+                                        otherUserId={isBuyer ? (seller as any)._id : (buyer as any)._id}
+                                        otherUserName={isBuyer ? seller.name : buyer.name}
+                                    />
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
 
