@@ -14,6 +14,8 @@ import orderRoutes from './routes/order.routes';
 import paymentRoutes from './routes/payment.routes';
 import reviewRoutes from './routes/review.routes';
 import messageRoutes from './routes/message.routes';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
 // Load env vars
 dotenv.config();
 
@@ -21,7 +23,18 @@ dotenv.config();
 connectDB();
 
 const app: Application = express();
+const httpServer = createServer(app);
 
+// Socket.io setup
+const io = new Server(httpServer, {
+    cors: {
+        origin: process.env.FRONTEND_URL,
+        credentials: true
+    }
+});
+
+// Setup chat socket
+setupChatSocket(io);
 // Body parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -50,8 +63,7 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-    // Start scheduler
-    startScheduler();
+httpServer.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`💬 Socket.io running on ws://localhost:${PORT}`);
 });

@@ -21,6 +21,8 @@ import OrderStatusBadge from '@/components/orders/OrderStatusBadge'
 import { formatPrice, formatDate } from '@/lib/utils'
 import { orderService } from '@/services/order.service'
 import { useAuthStore } from '@/store/authStore'
+import { MessageCircle } from 'lucide-react'
+import ChatBox from '@/components/chat/ChatBox'
 import type { User as UserType } from '../types/user.types'
 
 export default function OrderDetail() {
@@ -32,6 +34,7 @@ export default function OrderDetail() {
     const [disputeReason, setDisputeReason] = useState('')
     const [showDisputeForm, setShowDisputeForm] = useState(false)
     const [showReviewForm, setShowReviewForm] = useState(false)
+    const [showChat, setShowChat] = useState(false)
 
     // Fetch order
     const { data, isLoading } = useQuery({
@@ -351,6 +354,24 @@ export default function OrderDetail() {
                             onClose={() => setShowReviewForm(false)}
                         />
                     )}
+                    {/* Chat Section */}
+                    <div className="mt-6 bg-background border rounded-lg p-6">
+                        <button
+                            onClick={() => setShowChat(!showChat)}
+                            className="flex items-center gap-2 text-xl font-semibold mb-4 hover:text-primary transition-colors"
+                        >
+                            <MessageCircle className="w-5 h-5" />
+                            <span>Chat with {isBuyer ? 'Seller' : 'Buyer'}</span>
+                        </button>
+
+                        {showChat && seller && buyer && (
+                            <ChatBox
+                                orderId={order._id}
+                                otherUserId={isBuyer ? (seller as any)._id : (buyer as any)._id}
+                                otherUserName={isBuyer ? seller.name : buyer.name}
+                            />
+                        )}
+                    </div>
                 </div>
 
                 {/* Right: Summary */}
