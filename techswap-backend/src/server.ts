@@ -24,11 +24,15 @@ connectDB();
 
 const app: Application = express();
 const httpServer = createServer(app);
-
+const allowedOrigins = [
+    process.env.FRONTEND_URL,
+    'http://localhost:5173', // dev test
+].filter((origin): origin is string => origin !== undefined);
 // Socket.io setup
 const io = new Server(httpServer, {
     cors: {
-        origin: process.env.FRONTEND_URL,
+        origin: allowedOrigins,
+        methods: ['GET', 'POST'],
         credentials: true
     }
 });
@@ -41,10 +45,19 @@ app.use(express.urlencoded({ extended: true }));
 
 // Security
 app.use(helmet());
+
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
-    credentials: true
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error(`Not allowed by CORS: ${origin}`));
+        }
+    },
+    credentials: true,
 }));
+
 
 // Routes
 app.use('/api/auth', authRoutes);
