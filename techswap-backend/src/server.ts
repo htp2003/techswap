@@ -5,13 +5,15 @@ import helmet from 'helmet';
 import connectDB from './config/database';
 import { errorHandler } from './middleware/errorHandler';
 import { startScheduler } from './utils/scheduler';
+import { setupChatSocket } from './socket/chatSocket';
 
 // Routes
 import authRoutes from './routes/auth.routes';
 import productRoutes from './routes/product.routes';
 import orderRoutes from './routes/order.routes';
 import paymentRoutes from './routes/payment.routes';
-
+import reviewRoutes from './routes/review.routes';
+import messageRoutes from './routes/message.routes';
 // Load env vars
 dotenv.config();
 
@@ -36,6 +38,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/reviews', reviewRoutes);
+app.use('/api/messages', messageRoutes);
 // Health check
 app.get('/health', (req, res) => {
     res.status(200).json({ success: true, message: 'Server is running' });

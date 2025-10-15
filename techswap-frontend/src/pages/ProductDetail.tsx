@@ -17,6 +17,9 @@ import { productService } from '@/services/product.service'
 import { useAuthStore } from '@/store/authStore'
 import { toast } from 'sonner'
 import type { User as UserType } from '../types/user.types'
+import ReviewCard from '@/components/reviews/ReviewCard'
+import { reviewService } from '@/services/review.service'
+import StarRating from '@/components/ui/StarRating'
 
 export default function ProductDetail() {
     const { id } = useParams<{ id: string }>()
@@ -52,6 +55,14 @@ export default function ProductDetail() {
         // Navigate to checkout (will implement later)
         navigate(`/checkout/${id}`)
     }
+    const { data: reviewsData } = useQuery({
+        queryKey: ['seller-reviews', seller?._id],
+        queryFn: () => reviewService.getUserReviews(seller!._id),
+        enabled: !!seller?._id,
+    })
+
+    const reviews = reviewsData?.data?.reviews || []
+    const stats = reviewsData?.data?.stats
 
     if (isLoading) {
         return (
@@ -231,7 +242,35 @@ export default function ProductDetail() {
                         </div>
                     </div>
                 )}
+                {/* Add Reviews Section at the bottom */}
+                {seller && (
+                    <div className="mt-12">
+                        <div className="flex items-center justify-between mb-6">
+                            <h2 className="text-2xl font-bold">Seller Reviews</h2>
+                            {stats && stats.totalReviews > 0 && (
+                                <div className="flex items-center gap-2">
+                                    <StarRating rating={stats.averageRating} size="md" />
+                                    <span className="font-semibold">{stats.averageRating}</span>
+                                    <span className="text-muted-foreground">({stats.totalReviews} reviews)</span>
+                                </div>
+                            )}
+                        </div>
+
+                        {reviews.length === 0 ? (
+                            <p className="text-center text-muted-foreground py-8">
+                                No reviews yet
+                            </p>
+                        ) : (
+                            <div className="space-y-4">
+                                {reviews.map((review) => (
+                                    <ReviewCard key={review._id} review={review} />
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
+
         </div>
     )
 }

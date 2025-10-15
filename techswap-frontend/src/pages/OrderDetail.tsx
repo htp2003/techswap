@@ -14,11 +14,14 @@ import {
 } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
+import { Star } from 'lucide-react'
+import CreateReviewForm from '@/components/reviews/CreateReviewForm'
+import { reviewService } from '@/services/review.service'
 import OrderStatusBadge from '@/components/orders/OrderStatusBadge'
 import { formatPrice, formatDate } from '@/lib/utils'
 import { orderService } from '@/services/order.service'
 import { useAuthStore } from '@/store/authStore'
-import type { User as UserType, Product as ProductType } from '../types/user.types'
+import type { User as UserType } from '../types/user.types'
 
 export default function OrderDetail() {
     const { id } = useParams<{ id: string }>()
@@ -28,6 +31,7 @@ export default function OrderDetail() {
     const [trackingNumber, setTrackingNumber] = useState('')
     const [disputeReason, setDisputeReason] = useState('')
     const [showDisputeForm, setShowDisputeForm] = useState(false)
+    const [showReviewForm, setShowReviewForm] = useState(false)
 
     // Fetch order
     const { data, isLoading } = useQuery({
@@ -43,7 +47,14 @@ export default function OrderDetail() {
 
     const isBuyer = order?.buyerId === user?._id || (buyer as any)?._id === user?._id
     const isSeller = order?.sellerId === user?._id || (seller as any)?._id === user?._id
+    // Check review eligibility
+    const { data: eligibilityData } = useQuery({
+        queryKey: ['review-eligibility', id],
+        queryFn: () => reviewService.checkReviewEligibility(id!),
+        enabled: !!id && order?.status === 'completed',
+    })
 
+    const canReview = eligibilityData?.data?.canReview
     // Ship order mutation
     const shipMutation = useMutation({
         mutationFn: () => orderService.shipOrder(id!, trackingNumber),
@@ -309,6 +320,37 @@ export default function OrderDetail() {
                             </div>
                         )}
                     </div>
+                    {/* Review Section - Only show if order completed */}
+                    {order.status === 'completed' && (
+                        <div className="bg-background border rounded-lg p-6">
+                            <h2 className="text-xl font-semibold mb-4">Review</h2>
+
+                            {canReview ? (
+                                <div className="text-center py-4">
+                                    <p className="text-muted-foreground mb-4">
+                                        How was your experience?
+                                    </p>
+                                    <Button onClick={() => setShowReviewForm(true)}>
+                                        <Star className="w-4 h-4 mr-2" />
+                                        Leave a Review
+                                    </Button>
+                                </div>
+                            ) : (
+                                <div className="text-center py-4">
+                                    <p className="text-muted-foreground">
+                                        {eligibilityData?.data?.reason || 'Review already submitted'}
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                    {/* Review Form Modal */}
+                    {showReviewForm && (
+                        <CreateReviewForm
+                            orderId={id!}
+                            onClose={() => setShowReviewForm(false)}
+                        />
+                    )}
                 </div>
 
                 {/* Right: Summary */}
