@@ -92,7 +92,7 @@ export default function ProductDetail() {
                 {/* Images */}
                 <div>
                     {/* Main Image */}
-                    <div className="aspect-square bg-muted rounded-lg overflow-hidden mb-4">
+                    <div className="aspect-square w-full max-w-sm mx-auto bg-muted rounded-lg overflow-hidden mb-4">
                         <img
                             src={product.images[selectedImage]}
                             alt={product.modelName}
@@ -101,13 +101,13 @@ export default function ProductDetail() {
                     </div>
 
                     {/* Thumbnails */}
-                    <div className="grid grid-cols-4 gap-2">
+                    <div className="grid grid-cols-6 gap-2">
                         {product.images.map((image, index) => (
                             <button
                                 key={index}
                                 onClick={() => setSelectedImage(index)}
-                                className={`aspect-square bg-muted rounded-lg overflow-hidden border-2 transition-colors ${selectedImage === index ? 'border-primary' : 'border-transparent'
-                                    }`}
+                                className={`aspect-square bg-muted rounded-lg overflow-hidden border-2 transition-colors hover:border-primary ${selectedImage === index ? 'border-primary' : 'border-transparent'}`}
+                                aria-label={`Select image ${index + 1}`}
                             >
                                 <img
                                     src={image}

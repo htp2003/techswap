@@ -16,6 +16,7 @@ import MyPurchases from '@/pages/MyPurchases'
 import MySales from '@/pages/MySales'
 import OrderDetail from '@/pages/OrderDetail'
 import NotFound from '@/pages/NotFound'
+import Checkout from '@/pages/Checkout'
 
 // Protected Route Component
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -106,6 +107,14 @@ export default function useRouteElements() {
             element: (
                 <ProtectedRoute>
                     <Layout><OrderDetail /></Layout>
+                </ProtectedRoute>
+            )
+        },
+        {
+            path: '/checkout/:id',
+            element: (
+                <ProtectedRoute>
+                    <Layout><Checkout /></Layout>
                 </ProtectedRoute>
             )
         },

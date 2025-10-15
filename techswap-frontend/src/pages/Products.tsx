@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Search, SlidersHorizontal } from 'lucide-react'
 import Button from '@/components/ui/Button'
-import Input from '@/components/ui/Input'
 import ProductCard from '@/components/products/ProductCard'
 import { productService } from '@/services/product.service'
 import type { ProductFilters } from '../types/product.types'
@@ -37,9 +36,9 @@ export default function Products() {
     return (
         <div className="container mx-auto px-4 py-8">
             {/* Header */}
-            <div className="mb-8">
-                <h1 className="text-4xl font-bold mb-2">Browse Products</h1>
-                <p className="text-muted-foreground">
+            <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between">
+                <h1 className="text-2xl font-bold mb-2">Browse Products</h1>
+                <p className="text-muted-foreground font-bold">
                     Find the best deals on secondhand electronics
                 </p>
             </div>
@@ -47,21 +46,33 @@ export default function Products() {
             {/* Search & Filters */}
             <div className="mb-8 flex flex-col md:flex-row gap-4">
                 {/* Search */}
-                <form onSubmit={handleSearch} className="flex-1 flex gap-2">
-                    <Input
-                        placeholder="Search products..."
-                        value={searchInput}
-                        onChange={(e) => setSearchInput(e.target.value)}
-                        className="flex-1"
-                    />
-                    <Button type="submit">
-                        <Search className="w-4 h-4 mr-2" />
-                        Search
-                    </Button>
+                <form
+                    onSubmit={handleSearch}
+                    className="flex items-center bg-white rounded-2xl h-14 overflow-hidden w-full max-w-5xl mx-auto"
+                    style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.15)' }}
+                >
+                    <div className="flex items-center flex-1 px-4">
+                        <Search className="w-5 h-5 text-gray-500 mr-2" />
+                        <input
+                            type="text"
+                            placeholder="Tìm sản phẩm..."
+                            value={searchInput}
+                            onChange={(e) => setSearchInput(e.target.value)}
+                            className="flex-1 outline-none text-gray-700 placeholder-gray-400 bg-transparent"
+                        />
+                    </div>
+
+                    <button
+                        type="submit"
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-medium h-full px-6 transition-colors hover:"
+                        style={{ boxShadow: '0 0 15px rgba(0, 0, 0, 0.2)' }}
+                    >
+                        Tìm kiếm
+                    </button>
                 </form>
 
                 {/* Filter Button (Mobile) */}
-                <Button variant="outline" className="md:hidden">
+                <Button variant="outline" className="md:hidden shadow-md">
                     <SlidersHorizontal className="w-4 h-4 mr-2" />
                     Filters
                 </Button>
