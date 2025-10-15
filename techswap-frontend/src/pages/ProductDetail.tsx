@@ -7,7 +7,6 @@ import {
     Star,
     ArrowLeft,
     ShoppingCart,
-    User,
     Calendar,
     Package
 } from 'lucide-react'

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { Search, Package, Shield, Zap, ArrowRight } from 'lucide-react'
+import { Package, Shield, Zap, ArrowRight } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import ProductCard from '@/components/products/ProductCard'
 import { productService } from '@/services/product.service'
