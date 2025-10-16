@@ -69,9 +69,9 @@ const productSchema = new Schema<IProduct>(
             type: [String],
             validate: {
                 validator: function (arr: string[]) {
-                    return arr.length >= 3 && arr.length <= 8;
+                    return arr.length >= 1 && arr.length <= 8;
                 },
-                message: 'Product must have between 3 and 8 images'
+                message: 'Product must have between 1 and 8 images'
             }
         },
         status: {
