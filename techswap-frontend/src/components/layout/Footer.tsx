@@ -50,23 +50,23 @@ export default function Footer() {
                         <h3 className="font-semibold mb-4">Support</h3>
                         <ul className="space-y-2 text-sm text-muted-foreground">
                             <li>
+                                <Link to="/about" className="hover:text-primary transition-colors">
+                                    About Us
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/policy" className="hover:text-primary transition-colors">
+                                    Privacy & Policy
+                                </Link>
+                            </li>
+                            <li>
                                 <a href="#" className="hover:text-primary transition-colors">
                                     Help Center
                                 </a>
                             </li>
                             <li>
                                 <a href="#" className="hover:text-primary transition-colors">
-                                    Safety Tips
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="hover:text-primary transition-colors">
-                                    Terms of Service
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="hover:text-primary transition-colors">
-                                    Privacy Policy
+                                    Contact Us
                                 </a>
                             </li>
                         </ul>

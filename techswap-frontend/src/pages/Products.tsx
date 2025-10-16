@@ -40,7 +40,12 @@ export default function Products() {
     }
 
     const handleFilterChange = (key: keyof ProductFilters, value: any) => {
-        setFilters({ ...filters, [key]: value, page: 1 })
+        // Only reset page to 1 if we're not changing the page itself
+        if (key === 'page') {
+            setFilters({ ...filters, [key]: value })
+        } else {
+            setFilters({ ...filters, [key]: value, page: 1 })
+        }
     }
 
     const activeFiltersCount = [filters.category, filters.condition, filters.search].filter(Boolean).length
@@ -112,8 +117,8 @@ export default function Products() {
                         <button
                             onClick={() => handleFilterChange('category', undefined)}
                             className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${!filters.category
-                                    ? 'bg-gradient-to-r from-primary to-purple-600 text-white shadow-lg scale-105'
-                                    : 'bg-white dark:bg-gray-800 border border-border hover:border-primary hover:shadow-md'
+                                ? 'bg-gradient-to-r from-primary to-purple-600 text-white shadow-lg scale-105'
+                                : 'bg-white dark:bg-gray-800 border border-border hover:border-primary hover:shadow-md'
                                 }`}
                         >
                             All Products
@@ -125,8 +130,8 @@ export default function Products() {
                                     key={cat.value}
                                     onClick={() => handleFilterChange('category', cat.value)}
                                     className={`flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-300 ${filters.category === cat.value
-                                            ? `bg-gradient-to-r ${cat.color} text-white shadow-lg scale-105`
-                                            : 'bg-white dark:bg-gray-800 border border-border hover:border-primary hover:shadow-md'
+                                        ? `bg-gradient-to-r ${cat.color} text-white shadow-lg scale-105`
+                                        : 'bg-white dark:bg-gray-800 border border-border hover:border-primary hover:shadow-md'
                                         }`}
                                 >
                                     <Icon className="w-4 h-4" />

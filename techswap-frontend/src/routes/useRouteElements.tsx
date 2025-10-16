@@ -17,6 +17,8 @@ import MySales from '@/pages/MySales'
 import OrderDetail from '@/pages/OrderDetail'
 import NotFound from '@/pages/NotFound'
 import Checkout from '@/pages/Checkout'
+import Policy from '@/pages/Policy'
+import AboutUs from '@/pages/AboutUs'
 
 // Protected Route Component
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -117,6 +119,14 @@ export default function useRouteElements() {
                     <Layout><Checkout /></Layout>
                 </ProtectedRoute>
             )
+        },
+        {
+            path: '/policy',
+            element: <Layout><Policy /></Layout>
+        },
+        {
+            path: '/about',
+            element: <Layout><AboutUs /></Layout>
         },
         {
             path: '*',
