@@ -187,6 +187,10 @@ techswap/
 
 ---
 
+## 🤖 AI Assistance
+
+I used AI tools (e.g., GitHub Copilot/LLMs) to assist with coding and documentation. All code was reviewed, tested, and integrated by me; architectural decisions and overall direction remain my responsibility.
+
 ## 📝 License
 
 MIT License
@@ -199,4 +203,5 @@ MIT License
 - GitHub: [@htp2003](https://github.com/htp2003)
 - Email: hatanphat1121@gmail.com
 - Portfolio: [View all projects](https://github.com/htp2003)
+
 
